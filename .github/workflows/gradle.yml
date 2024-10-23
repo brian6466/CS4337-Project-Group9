@@ -27,11 +27,9 @@ jobs:
           gradle-version: '8.9'
 
       - name: Grant execute permission for Gradle Wrapper
-        working-directory: ./userApi
         run: chmod +x gradlew
 
       - name: Build with Gradle Wrapper
-        working-directory: ./userApi
         run: ./gradlew build
 
 #  dependency-submission:
