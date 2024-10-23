@@ -1,10 +1,10 @@
-package cs4337.group9.mediumwebsite;
+package cs4337.group9.userapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MediumWebsiteApplicationTests {
+class UserApiApplicationTests {
 
     @Test
     void contextLoads() {
