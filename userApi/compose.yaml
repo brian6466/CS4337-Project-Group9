@@ -2,9 +2,28 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_DATABASE=userapi'
       - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_USER=user'
     ports:
-      - '3306'
+      - '3306:3306'
+    volumes:
+      - './src/main/resources:/docker-entrypoint-initdb.d'
+    networks:
+        - userapi-network
+
+  userapi:
+    build: .
+    image: 'userapi:latest'
+    container_name: 'userapi'
+    depends_on:
+      - mysql
+    networks:
+      - userapi-network
+    ports:
+      - '8080:8080'
+
+networks:
+    userapi-network:
+        driver: bridge
