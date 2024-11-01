@@ -1,4 +1,4 @@
-package cs4337.group9.mediumwebsite;
+package cs4337.group9.contentapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,10 +9,10 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-public class MediumWebsiteApplication {
+public class ContentApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MediumWebsiteApplication.class, args);
+        SpringApplication.run(ContentApiApplication.class, args);
     }
 
     @GetMapping( "/hello" ) public Map<String, Object> sayHello () {

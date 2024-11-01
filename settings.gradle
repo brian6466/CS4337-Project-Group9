@@ -1,3 +1,5 @@
 rootProject.name = 'Medium-Website'
 
 include 'userApi'
+include 'contentApi'
+

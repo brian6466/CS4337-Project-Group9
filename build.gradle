@@ -21,7 +21,6 @@ subprojects {
     repositories {
         mavenCentral()
     }
-
     dependencies {
         //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -32,5 +31,4 @@ subprojects {
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 
-    // Optional: Add common tasks or configurations here
 }
