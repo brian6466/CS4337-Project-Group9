@@ -1,4 +1,4 @@
-package cs4337.group9.userapi;
+package cs4337.group9.mediumwebsite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
