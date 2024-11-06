@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/userapi")  // Base URL for the user-related endpoints
+@RequestMapping("/user")  // Base URL for the user-related endpoints
 public class UserController {
 
-    @GetMapping("/user")
+    @GetMapping()
     public String getUser() {
         return "User Returned!";
     }
