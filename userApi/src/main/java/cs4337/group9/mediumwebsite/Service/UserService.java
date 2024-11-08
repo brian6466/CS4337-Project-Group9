@@ -1,12 +1,13 @@
 package cs4337.group9.mediumwebsite.Service;
 
 import cs4337.group9.mediumwebsite.Entity.User;
+import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
+import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
 import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -18,10 +19,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public boolean userExistsByEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 
-    public User createUser(User user) {
-        //Check if user exists first
+    public void createUser(User user) {
+        if (userExistsByEmail(user.getEmail())) {
+            throw new UserAlreadyExistsException(user.getEmail());
+        }
+
         userRepository.save(user);
-        return user;
+    }
+
+    public User getUserById(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId.toString()));
     }
 }
