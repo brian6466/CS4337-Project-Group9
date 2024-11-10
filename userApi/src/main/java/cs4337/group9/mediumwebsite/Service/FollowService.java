@@ -1,7 +1,7 @@
 package cs4337.group9.mediumwebsite.Service;
 
-import cs4337.group9.mediumwebsite.Entity.Follow;
-import cs4337.group9.mediumwebsite.Entity.User;
+import cs4337.group9.mediumwebsite.Entity.FollowEntity;
+import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Repostiory.FollowRepository;
 import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,10 @@ public class FollowService {
         if (followRepository.existsByFollowerIdAndFollowingId(followerId, followingId))
             return getFollowMessage(followerId, followingId, "is already following");
 
-        User follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
-        User following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
+        UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
+        UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
 
-        Follow followEntity = new Follow(followerId,followingId);
+        FollowEntity followEntity = new FollowEntity(followerId,followingId);
         followRepository.save(followEntity);
 
         return String.format("%s (%s) has successfully followed %s (%s)",
@@ -41,8 +41,8 @@ public class FollowService {
         if (!followRepository.existsByFollowerIdAndFollowingId(followerId, followingId))
             return getFollowMessage(followerId, followingId, "is already not following");
 
-        User follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
-        User following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
+        UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
+        UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
 
         followRepository.deleteByFollowerIdAndFollowingId(followerId, followingId);
 
@@ -51,23 +51,23 @@ public class FollowService {
     }
 
     private String getFollowMessage(UUID followerId, UUID followingId, String response) {
-        User follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
-        User following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
+        UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
+        UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
 
         return String.format("%s (%s) %s %s (%s)",
                 follower.getUsername(), follower.getId(), response, following.getUsername(), following.getId());
     }
 
 
-    public List<User> getFollowers(UUID userId) {
-        List<Follow> relationship = followRepository.findByFollowingId(userId);
+    public List<UserEntity> getFollowers(UUID userId) {
+        List<FollowEntity> relationship = followRepository.findByFollowingId(userId);
 
         return relationship.stream().map(follow -> userRepository.findById(follow.getFollowerId()).orElse(null)).
                 collect(Collectors.toList());
     }
 
-    public List<User> getFollowing(UUID userId) {
-        List<Follow> relationship = followRepository.findByFollowerId(userId);
+    public List<UserEntity> getFollowing(UUID userId) {
+        List<FollowEntity> relationship = followRepository.findByFollowerId(userId);
 
         return relationship.stream().map(follow -> userRepository.findById(follow.getFollowingId()).orElse(null)).
                 collect(Collectors.toList());

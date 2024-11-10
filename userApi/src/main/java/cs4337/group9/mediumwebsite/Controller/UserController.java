@@ -1,7 +1,6 @@
 package cs4337.group9.mediumwebsite.Controller;
 
-import cs4337.group9.mediumwebsite.Entity.User;
-import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
+import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,44 +21,40 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable UUID userId) {
-        User user = userService.getUserById(userId);
+    public ResponseEntity<UserEntity> getUser(@PathVariable UUID userId) {
+        UserEntity user = userService.getUserById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@RequestBody UserEntity user) {
         userService.createUser(user);
         return new ResponseEntity<>("User created successfully!", HttpStatus.CREATED);
     }
 
-//    @PutMapping
-//    public ResponseEntity<String> updateUser(@RequestBody User user) {
-//        //userService.checkIfUserExists(user)
-//        //userService.updateUser(user)
-//        return new ResponseEntity<>("User updated successfully!", HttpStatus.CREATED);
-//    }
-//
-//    @DeleteMapping
-//    public ResponseEntity<String> deleteUser(@RequestBody User user) {
-//        //userService.checkIfUserExists(user)
-//        //userService.deleteUser(user)
-//        return new ResponseEntity<>("User deleted successfully!", HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("/ban/{userId}")
-//    public ResponseEntity<String> banUser(@PathVariable String userId) {
-//        //userService.checkIfUserExists(userId)
-//        //Call service ban user method
-//        return new ResponseEntity<>("User banned successfully!", HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("/unban/{userId}")
-//    public ResponseEntity<String> unbanUser(@PathVariable String userId) {
-//        //userService.checkIfUserExists(userId)
-//        //Call service unban user method
-//        return new ResponseEntity<>("User unbanned successfully!", HttpStatus.CREATED);
-//    }
+    @PutMapping("/{userId}")
+    public ResponseEntity<String> updateUser(@PathVariable UUID userId, @RequestBody UserEntity user) {
+        userService.updateUser(userId, user);
+        return new ResponseEntity<>("User updated successfully!", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
+        return new ResponseEntity<>("User deleted successfully!", HttpStatus.OK);
+    }
+
+    @PutMapping("/ban/{userId}")
+    public ResponseEntity<String> banUser(@PathVariable UUID userId) {
+        userService.banUser(userId);
+        return new ResponseEntity<>("User banned successfully!", HttpStatus.OK);
+    }
+
+    @PutMapping("/unban/{userId}")
+    public ResponseEntity<String> unbanUser(@PathVariable UUID userId) {
+        userService.unbanUser(userId);
+        return new ResponseEntity<>("User unbanned successfully!", HttpStatus.OK);
+    }
 
 
 }

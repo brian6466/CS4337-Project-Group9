@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS userapi;
 USE userapi;
 
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -15,18 +15,18 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS followers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    follower_id INT NOT NULL,
-    following_id INT NOT NULL,
+    id CHAR(36) PRIMARY KEY,
+    follower_id CHAR(36) NOT NULL,
+    following_id CHAR(36) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS admin_actions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    admin_id INT NOT NULL, -- Admin doing the action
-    user_id INT NOT NULL,  -- target
+    id CHAR(36) PRIMARY KEY,
+    admin_id CHAR(36) NOT NULL, -- Admin doing the action
+    user_id CHAR(36) NOT NULL,  -- target
     action ENUM('BAN', 'UNBAN') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE,

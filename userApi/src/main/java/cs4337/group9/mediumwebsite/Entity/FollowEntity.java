@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "followers")
-public class Follow {
+public class FollowEntity {
 
     @Id
     @GeneratedValue
@@ -29,7 +29,7 @@ public class Follow {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public Follow(UUID followerId, UUID followingId) {
+    public FollowEntity(UUID followerId, UUID followingId) {
         this.followerId = followerId;
         this.followingId = followingId;
     }
