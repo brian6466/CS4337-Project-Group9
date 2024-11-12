@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -79,5 +80,9 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(userId.toString()));
         user.setStatus(Status.ACTIVE);
         userRepository.save(user);
+    }
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 }

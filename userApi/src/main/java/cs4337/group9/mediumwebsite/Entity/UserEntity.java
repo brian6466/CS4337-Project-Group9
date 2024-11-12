@@ -18,8 +18,7 @@ import java.util.UUID;
 public class UserEntity {
 
     @Id
-    //@GeneratedValue
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -38,6 +37,8 @@ public class UserEntity {
     private Status status;
 
     private String about;
+
+    @Column(name = "profile_picture")
     private String profilePicture;
 
     @Column(name = "created_at", updatable = false)
