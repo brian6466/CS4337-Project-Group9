@@ -18,7 +18,8 @@ import java.util.UUID;
 public class UserEntity {
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
     private UUID id;
 
     @Column(nullable = false, unique = true)

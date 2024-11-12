@@ -3,11 +3,12 @@ CREATE DATABASE IF NOT EXISTS userapi;
 USE userapi;
 
 CREATE TABLE IF NOT EXISTS users (
-    id CHAR(36) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    id VARCHAR(36) PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('USER', 'ADMIN') NOT NULL,
+    status ENUM('ACTIVE', 'BANNED') DEFAULT 'ACTIVE',
     about TEXT,
     profile_picture VARCHAR(255), -- URL to image
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -36,7 +36,11 @@ public class UserService {
         if (userExistsByEmail(user.getEmail())) {
             throw new UserAlreadyExistsException(user.getEmail());
         }
+        UUID generatedId = UUID.randomUUID();
+        user.setId(generatedId);
+        System.out.println("Generated UUID: " + generatedId);
         userRepository.save(user);
+        System.out.println("Saved User ID: " + user.getId());
     }
 
     public UserEntity getUserById(UUID userId) {

@@ -41,8 +41,8 @@ public class FollowService {
         if (!followRepository.existsByFollowerIdAndFollowingId(followerId, followingId))
             return getFollowMessage(followerId, followingId, "is already not following");
 
-        UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
-        UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
+        UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException(String.format("FollowerId not found: %s", followerId)));
+        UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException(String.format("FollowingId not found: %s", followingId)));
 
         followRepository.deleteByFollowerIdAndFollowingId(followerId, followingId);
 
