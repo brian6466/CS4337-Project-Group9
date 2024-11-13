@@ -22,7 +22,6 @@ subprojects {
         mavenCentral()
     }
     dependencies {
-        //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-security'
         implementation 'org.springframework.security:spring-security-config'
@@ -36,11 +35,9 @@ subprojects {
         developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
         runtimeOnly 'com.mysql:mysql-connector-j'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        //testImplementation 'org.springframework.security:spring-security-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-        implementation 'org.projectlombok:lombok:1.18.24'
-        annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
+        implementation 'org.projectlombok:lombok:1.18.32'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     }
 
 }

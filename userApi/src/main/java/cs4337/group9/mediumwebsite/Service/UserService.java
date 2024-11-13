@@ -1,31 +1,88 @@
 package cs4337.group9.mediumwebsite.Service;
 
-import cs4337.group9.mediumwebsite.Entity.User;
-import cs4337.group9.mediumwebsite.Repository.UserRepository;
+import cs4337.group9.mediumwebsite.Entity.UserEntity;
+import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
+import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
+import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
+import cs4337.group9.mediumwebsite.enums.Status;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
+
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public void saveUser(User user) {
+    public void checkIfUserExists(UUID userId){
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException(userId.toString());
+        }
+    }
+
+    public boolean userExistsByEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    @Transactional
+    public void createUser(UserEntity user) {
+        if (userExistsByEmail(user.getEmail())) {
+            throw new UserAlreadyExistsException(user.getEmail());
+        }
+        UUID generatedId = UUID.randomUUID();
+        user.setId(generatedId);
+        System.out.println("Generated UUID: " + generatedId);
         userRepository.save(user);
+        System.out.println("Saved User ID: " + user.getId());
+    }
+
+    public UserEntity getUserById(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId.toString()));
+    }
+
+    @Transactional
+    public void updateUser(UUID userId, UserEntity updatedUser) {
+        UserEntity existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId.toString()));
+
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setEmail(updatedUser.getEmail());
+
+        userRepository.save(existingUser);
+    }
+
+    @Transactional
+    public void deleteUser(UUID userId) {
+        checkIfUserExists(userId);
+        userRepository.deleteById(userId);
+    }
+
+    @Transactional
+    public void banUser(UUID userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId.toString()));
+        user.setStatus(Status.BANNED);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void unbanUser(UUID userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId.toString()));
+        user.setStatus(Status.ACTIVE);
+        userRepository.save(user);
+    }
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 }
