@@ -1,5 +1,4 @@
-package cs4337.group9.userapi.util;
-
+package cs4337.group9.mediumwebsite.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
