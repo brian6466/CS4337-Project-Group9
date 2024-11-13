@@ -1,4 +1,5 @@
 package cs4337.group9.mediumwebsite.Controller;
+
 import cs4337.group9.mediumwebsite.Entity.User;
 import cs4337.group9.mediumwebsite.Service.UserService;
 import cs4337.group9.mediumwebsite.util.JWTUtil;
@@ -8,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +18,6 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Autowired
     private UserService userService;
