@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,7 +52,7 @@ public class CommentService {
         return String.format("Comment was successfully deleted, id (%s)", commentId);
     }
 
-    public List<CommentEntity> getAllComments(Long articleId) {
-        return commentRepository.findByArticleid(articleId);
+    public List<CommentEntity> getAllComments(Long articleId, Pageable pageable) {
+        return commentRepository.findByArticleid(articleId, pageable);
     }
 }
