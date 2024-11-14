@@ -21,7 +21,7 @@ public class CommentEntity {
     private Long id;
 
     @Column(name = "article_id", nullable = false)
-    private UUID article_id;
+    private UUID articleId;
 
     @Column(name = "user_id", nullable = false)
     private UUID user_id;
@@ -30,5 +30,10 @@ public class CommentEntity {
     private String content;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime created_at = LocalDateTime.now();
+    private LocalDateTime created_At = LocalDateTime.now();
+
+    @PrePersist
+    protected void onCreate() {
+        this.created_At = LocalDateTime.now();
+    }
 }

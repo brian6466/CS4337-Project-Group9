@@ -23,7 +23,7 @@ public class CommentService {
     @Transactional
     public CommentEntity createComment(UUID articleId, UUID userid, String content) {
         CommentEntity comment = new CommentEntity();
-        comment.setArticle_id(articleId);
+        comment.setArticleId(articleId);
         comment.setUser_id(userid);
         comment.setContent(content);
         return commentRepository.save(comment);
@@ -54,6 +54,6 @@ public class CommentService {
     }
 
     public Page<CommentEntity> getAllComments(UUID articleId, Pageable pageable) {
-        return commentRepository.findByArticleid(articleId, pageable);
+        return commentRepository.findByArticleId(articleId, pageable);
     }
 }
