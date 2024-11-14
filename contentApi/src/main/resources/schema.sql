@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS contentapi;
 USE contentapi;
 
 CREATE TABLE IF NOT EXISTS article (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BINARY(16) PRIMARY KEY,
     name VARCHAR(255) NOT NULL, -- article title
     content TEXT NOT NULL, -- article content
     author_id INT NOT NULL, -- would be user but can't reference user table in userApi
