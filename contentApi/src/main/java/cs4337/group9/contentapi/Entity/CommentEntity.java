@@ -21,7 +21,7 @@ public class CommentEntity {
     private Long id;
 
     @Column(name = "article_id", nullable = false)
-    private Long article_id;
+    private UUID article_id;
 
     @Column(name = "user_id", nullable = false)
     private UUID user_id;

@@ -1,13 +1,14 @@
 package cs4337.group9.contentapi.Repository;
 
 import cs4337.group9.contentapi.Entity.CommentEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
-import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
-    List<CommentEntity> findByArticleid(Long article_id, Pageable pageable);
+    Page<CommentEntity> findByArticleid(UUID article_id, Pageable pageable);
 }

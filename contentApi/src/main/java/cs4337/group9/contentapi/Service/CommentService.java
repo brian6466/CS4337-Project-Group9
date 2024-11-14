@@ -3,13 +3,14 @@ package cs4337.group9.contentapi.Service;
 import cs4337.group9.contentapi.Entity.CommentEntity;
 import cs4337.group9.contentapi.Exceptions.CommentNotFoundException;
 import cs4337.group9.contentapi.Exceptions.UnauthorizedAccessException;
+import cs4337.group9.contentapi.Repository.ArticleRepository;
 import cs4337.group9.contentapi.Repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,9 +21,9 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     @Transactional
-    public CommentEntity createComment(Long article_id, UUID userid, String content) {
+    public CommentEntity createComment(UUID articleId, UUID userid, String content) {
         CommentEntity comment = new CommentEntity();
-        comment.setArticle_id(article_id);
+        comment.setArticle_id(articleId);
         comment.setUser_id(userid);
         comment.setContent(content);
         return commentRepository.save(comment);
@@ -30,11 +31,11 @@ public class CommentService {
 
     public CommentEntity getComment(Long commentId, UUID userid) {
         CommentEntity comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException(String.format("Comment with id (%s) not found", commentId)));
+                .orElseThrow(() -> new CommentNotFoundException(commentId.toString()));
 
         if (comment.getUser_id().equals(userid))
             return comment;
-        else throw new UnauthorizedAccessException(String.format("This comment was not made by this user, id (%s)", userid));
+        else throw new UnauthorizedAccessException(userid.toString());
     }
 
     @Transactional
@@ -52,7 +53,7 @@ public class CommentService {
         return String.format("Comment was successfully deleted, id (%s)", commentId);
     }
 
-    public List<CommentEntity> getAllComments(Long articleId, Pageable pageable) {
+    public Page<CommentEntity> getAllComments(UUID articleId, Pageable pageable) {
         return commentRepository.findByArticleid(articleId, pageable);
     }
 }
