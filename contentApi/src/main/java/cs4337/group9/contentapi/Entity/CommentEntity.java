@@ -1,5 +1,6 @@
 package cs4337.group9.contentapi.Entity;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,14 +17,14 @@ import lombok.NoArgsConstructor;
 public class CommentEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "article_id", nullable = false)
     private Long article_id;
 
     @Column(name = "user_id", nullable = false)
-    private Long user_id;
+    private UUID user_id;
 
     @Column(name = "content", nullable = false)
     private String content;
