@@ -1,6 +1,6 @@
 # CS4337-Project-Group9
 
-This application is based on Medium, focusing on providing a platform for users to create, share, manage, and comment on articles. They can also follow authors to keep up-to-date with their articles. The project follows Spring Boot microservice architecture and aims to provide scalability and modularity, allowing for independent development and testing.
+This application is based on Medium, focusing on providing a platform for users to create, share, manage, and comment on articles. They can also follow authors to keep up-to-date with their articles. The project follows Spring Boot microservice architecture and aims to provide scalability and modularity, allowing for independent development and testing. We are using a microservice architecture where we have separated our comments and blog posting functionalities into the ContentApi microservice. We have also separated our user creation and following functionalities into the UserApi Microservice. We plan to add a third microservice called the AuthApi where all of our JWT authentication functionality will be placed.
 
 **Local Run**
 
