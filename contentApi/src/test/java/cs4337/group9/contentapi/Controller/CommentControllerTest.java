@@ -1,5 +1,4 @@
 package cs4337.group9.contentapi.Controller;
-
 import cs4337.group9.contentapi.Entity.CommentEntity;
 import cs4337.group9.contentapi.Entity.ArticleEntity;
 import cs4337.group9.contentapi.Service.CommentService;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

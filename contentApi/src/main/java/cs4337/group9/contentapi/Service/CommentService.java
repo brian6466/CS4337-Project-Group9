@@ -46,10 +46,16 @@ public class CommentService {
     }
 
     @Transactional
-    public String deleteComment(UUID commentId, UUID userid) {
-        CommentEntity comment = getComment(commentId, userid);
-        commentRepository.delete(comment);
-        return String.format("Comment was successfully deleted, id (%s)", commentId);
+    public String deleteComment(UUID commentId, UUID userId) {
+        CommentEntity comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException(commentId.toString()));
+
+        if (!comment.getUserId().equals(userId)) {
+            throw new UnauthorizedAccessException(userId.toString());
+        }
+
+        commentRepository.deleteById(commentId);
+        return "Comment was successfully deleted, id (" + commentId + ")";
     }
 
     public Page<CommentEntity> getAllComments(UUID articleId, Pageable pageable) {

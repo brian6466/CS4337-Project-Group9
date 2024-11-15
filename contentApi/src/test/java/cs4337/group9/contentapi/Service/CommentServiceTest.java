@@ -86,7 +86,7 @@ public class CommentServiceTest {
         UUID userId = UUID.randomUUID();
         String content = "Test comment";
         CommentEntity comment = new CommentEntity();
-        when(commentRepository.save(comment)).thenReturn(comment);
+        when(commentRepository.save(any(CommentEntity.class))).thenReturn(comment);
 
         CommentEntity result = commentService.createComment(articleId, userId, content);
 
@@ -112,10 +112,14 @@ public class CommentServiceTest {
     public void testDeleteComment() {
         UUID commentId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
+        CommentEntity comment = new CommentEntity();
+        comment.setUserId(userId);
+        when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
         doNothing().when(commentRepository).deleteById(commentId);
 
-        commentService.deleteComment(commentId, userId);
+        String result = commentService.deleteComment(commentId, userId);
 
+        assertEquals("Comment was successfully deleted, id (" + commentId + ")", result);
         verify(commentRepository, times(1)).deleteById(commentId);
     }
 }
