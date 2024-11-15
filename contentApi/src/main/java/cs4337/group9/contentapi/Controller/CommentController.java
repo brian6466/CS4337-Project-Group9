@@ -44,7 +44,7 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(
             @PathVariable UUID articleId,
-            @PathVariable Long commentId,
+            @PathVariable UUID commentId,
             @RequestParam UUID userId) {
         validArticle(articleId);
         String message = commentService.deleteComment(commentId, userId);
@@ -54,7 +54,7 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public ResponseEntity<Optional<CommentEntity>> updateComment(
             @PathVariable UUID articleId,
-            @PathVariable Long commentId,
+            @PathVariable UUID commentId,
             @RequestParam UUID userId,
             @RequestBody String content) {
         validArticle(articleId);
@@ -62,10 +62,10 @@ public class CommentController {
         return new ResponseEntity<>(update, HttpStatus.OK);
     }
 
-    @GetMapping("/commentId")
+    @GetMapping("/{commentId}")
     public ResponseEntity<CommentEntity> getComment(
             @PathVariable UUID articleId,
-            @PathVariable Long commentId,
+            @PathVariable UUID commentId,
             @RequestParam UUID userId ) {
         validArticle(articleId);
         CommentEntity comment = commentService.getComment(commentId, userId);

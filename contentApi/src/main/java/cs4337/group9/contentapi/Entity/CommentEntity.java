@@ -18,22 +18,22 @@ public class CommentEntity {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @Column(name = "article_id", nullable = false)
     private UUID articleId;
 
     @Column(name = "user_id", nullable = false)
-    private UUID user_id;
+    private UUID userId;
 
     @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime created_At = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.created_At = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 }
