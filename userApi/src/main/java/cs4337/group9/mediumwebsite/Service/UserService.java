@@ -1,11 +1,9 @@
 package cs4337.group9.mediumwebsite.Service;
 
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
-import cs4337.group9.mediumwebsite.Entity.AdminActionEntity;
 import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
 import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
 import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
-import cs4337.group9.mediumwebsite.Repostiory.AdminActionRepository;
 import cs4337.group9.mediumwebsite.enums.Status;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +14,15 @@ import java.util.UUID;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
-    private final AdminActionRepository adminActionRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AdminActionRepository adminActionRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.adminActionRepository = adminActionRepository;
     }
 
-    public void checkIfUserExists(UUID userId) {
+    public void checkIfUserExists(UUID userId){
         if (!userRepository.existsById(userId)) {
             throw new UserNotFoundException(userId.toString());
         }
@@ -42,7 +39,9 @@ public class UserService {
         }
         UUID generatedId = UUID.randomUUID();
         user.setId(generatedId);
+        System.out.println("Generated UUID: " + generatedId);
         userRepository.save(user);
+        System.out.println("Saved User ID: " + user.getId());
     }
 
     public UserEntity getUserById(UUID userId) {
@@ -68,30 +67,19 @@ public class UserService {
     }
 
     @Transactional
-    public void banUser(UUID userId, UUID adminId) {
+    public void banUser(UUID userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId.toString()));
         user.setStatus(Status.BANNED);
         userRepository.save(user);
-        logAdminAction(adminId, userId, AdminActionEntity.Action.BAN);
     }
 
     @Transactional
-    public void unbanUser(UUID userId, UUID adminId) {
+    public void unbanUser(UUID userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId.toString()));
         user.setStatus(Status.ACTIVE);
         userRepository.save(user);
-        logAdminAction(adminId, userId, AdminActionEntity.Action.UNBAN);
-    }
-
-    private void logAdminAction(UUID adminId, UUID userId, AdminActionEntity.Action action) {
-        AdminActionEntity adminAction = new AdminActionEntity();
-        adminAction.setId(UUID.randomUUID());
-        adminAction.setAdminId(adminId);
-        adminAction.setUserId(userId);
-        adminAction.setAction(action);
-        adminActionRepository.save(adminAction);
     }
 
     public List<UserEntity> getAllUsers() {

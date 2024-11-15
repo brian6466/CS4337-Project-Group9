@@ -13,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     private final UserService userService;
 
     @Autowired
@@ -51,14 +52,16 @@ public class UserController {
     }
 
     @PutMapping("/ban/{userId}")
-    public ResponseEntity<String> banUser(@PathVariable UUID userId, @RequestParam UUID adminId) {
-        userService.banUser(userId, adminId);
+    public ResponseEntity<String> banUser(@PathVariable UUID userId) {
+        userService.banUser(userId);
         return new ResponseEntity<>("User banned successfully!", HttpStatus.OK);
     }
 
     @PutMapping("/unban/{userId}")
-    public ResponseEntity<String> unbanUser(@PathVariable UUID userId, @RequestParam UUID adminId) {
-        userService.unbanUser(userId, adminId);
+    public ResponseEntity<String> unbanUser(@PathVariable UUID userId) {
+        userService.unbanUser(userId);
         return new ResponseEntity<>("User unbanned successfully!", HttpStatus.OK);
     }
+
+
 }
