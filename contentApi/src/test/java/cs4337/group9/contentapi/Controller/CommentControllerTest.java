@@ -1,5 +1,7 @@
 package cs4337.group9.contentapi.Controller;
+
 import cs4337.group9.contentapi.Entity.CommentEntity;
+import cs4337.group9.contentapi.Entity.ArticleEntity;
 import cs4337.group9.contentapi.Service.CommentService;
 import cs4337.group9.contentapi.Service.ArticleService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +47,7 @@ public class CommentControllerTest {
         List<CommentEntity> comments = Arrays.asList(new CommentEntity(), new CommentEntity());
         Page<CommentEntity> page = new PageImpl<>(comments);
         when(commentService.getAllComments(articleId, pageable)).thenReturn(page);
+        when(articleService.getArticleById(articleId)).thenReturn(new ArticleEntity());
 
         ResponseEntity<Page<CommentEntity>> response = commentController.getAllComments(articleId, 0, 10);
 
@@ -57,6 +62,7 @@ public class CommentControllerTest {
         UUID userId = UUID.randomUUID();
         CommentEntity comment = new CommentEntity();
         when(commentService.getComment(commentId, userId)).thenReturn(comment);
+        when(articleService.getArticleById(articleId)).thenReturn(new ArticleEntity());
 
         ResponseEntity<CommentEntity> response = commentController.getComment(articleId, commentId, userId);
 
@@ -71,6 +77,7 @@ public class CommentControllerTest {
         String content = "Test comment";
         CommentEntity comment = new CommentEntity();
         when(commentService.createComment(articleId, userId, content)).thenReturn(comment);
+        when(articleService.getArticleById(articleId)).thenReturn(new ArticleEntity());
 
         ResponseEntity<CommentEntity> response = commentController.createComment(articleId, userId, content);
 
@@ -86,6 +93,7 @@ public class CommentControllerTest {
         String content = "Updated comment";
         CommentEntity comment = new CommentEntity();
         when(commentService.updateComment(commentId, userId, content)).thenReturn(Optional.of(comment));
+        when(articleService.getArticleById(articleId)).thenReturn(new ArticleEntity());
 
         ResponseEntity<Optional<CommentEntity>> response = commentController.updateComment(articleId, commentId, userId, content);
 
@@ -100,6 +108,7 @@ public class CommentControllerTest {
         UUID userId = UUID.randomUUID();
         String message = "Comment deleted";
         when(commentService.deleteComment(commentId, userId)).thenReturn(message);
+        when(articleService.getArticleById(articleId)).thenReturn(new ArticleEntity());
 
         ResponseEntity<String> response = commentController.deleteComment(articleId, commentId, userId);
 
