@@ -115,11 +115,11 @@ public class CommentServiceTest {
         CommentEntity comment = new CommentEntity();
         comment.setUserId(userId);
         when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
-        doNothing().when(commentRepository).deleteById(commentId);
+        doNothing().when(commentRepository).delete(comment);
 
         String result = commentService.deleteComment(commentId, userId);
 
         assertEquals("Comment was successfully deleted, id (" + commentId + ")", result);
-        verify(commentRepository, times(1)).deleteById(commentId);
+        verify(commentRepository, times(1)).delete(comment);
     }
 }
