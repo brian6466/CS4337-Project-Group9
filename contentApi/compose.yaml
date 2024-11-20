@@ -7,22 +7,28 @@ services:
       - 'MYSQL_PASSWORD=secret'
       - 'MYSQL_USER=user'
     ports:
-      - '3306:3306'
+      - '3307:3306'
     volumes:
-      - './src/main/resources:/docker-entrypoint-initdb.d'
+      - ./src/main/resources:/docker-entrypoint-initdb.d
     networks:
       - contentapi-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-psecret" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   contentapi:
     build: .
     image: 'contentapi:latest'
     container_name: 'contentapi'
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - contentapi-network
     ports:
-      - '8080:8080'
+      - '8081:8080'
 
 networks:
   contentapi-network:

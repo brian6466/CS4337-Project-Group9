@@ -35,7 +35,6 @@ public class UserController {
     public ResponseEntity<List<UserEntity>> getUsers() {
         List<UserEntity> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
-
     }
 
     @PostMapping
@@ -49,12 +48,10 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable UUID userId, @RequestBody UserEntity user) {
-        UserEntity updatedUser = userService.updateUser(userId, user);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    public ResponseEntity<String> updateUser(@PathVariable UUID userId, @RequestBody UserEntity user) {
+        userService.updateUser(userId, user);
+        return new ResponseEntity<>("User updated successfully!", HttpStatus.OK);
     }
-
-
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
@@ -63,17 +60,16 @@ public class UserController {
     }
 
     @PutMapping("/ban/{userId}")
-    public ResponseEntity<String> banUser(@PathVariable UUID userId) {
-        userService.banUser(userId);
+    public ResponseEntity<String> banUser(@PathVariable UUID userId, @RequestParam UUID adminId) {
+        userService.banUser(userId, adminId);
         return new ResponseEntity<>("User banned successfully!", HttpStatus.OK);
     }
 
     @PutMapping("/unban/{userId}")
-    public ResponseEntity<String> unbanUser(@PathVariable UUID userId) {
-        userService.unbanUser(userId);
+    public ResponseEntity<String> unbanUser(@PathVariable UUID userId, @RequestParam UUID adminId) {
+        userService.unbanUser(userId, adminId);
         return new ResponseEntity<>("User unbanned successfully!", HttpStatus.OK);
     }
-
 
 
 }

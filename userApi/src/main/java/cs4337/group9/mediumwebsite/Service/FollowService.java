@@ -4,6 +4,7 @@ import cs4337.group9.mediumwebsite.Entity.FollowEntity;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Repostiory.FollowRepository;
 import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class FollowService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public String followUser(UUID followerId, UUID followingId) {
         if (followerId.equals(followingId))
             throw new IllegalArgumentException("Cannot follow themself");
@@ -36,7 +38,7 @@ public class FollowService {
         return String.format("%s (%s) has successfully followed %s (%s)",
                 follower.getUsername(), follower.getId(), following.getUsername(), following.getId());
     }
-
+    @Transactional
     public String unfollowUser(UUID followerId, UUID followingId) {
         if (!followRepository.existsByFollowerIdAndFollowingId(followerId, followingId))
             return getFollowMessage(followerId, followingId, "is already not following");
