@@ -52,14 +52,14 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity updateUser(UUID userId, UserEntity updatedUser) {
+    public void updateUser(UUID userId, UserEntity updatedUser) {
         UserEntity existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId.toString()));
 
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setEmail(updatedUser.getEmail());
 
-         return userRepository.save(existingUser);
+        userRepository.save(existingUser);
     }
 
     @Transactional
