@@ -10,7 +10,7 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - ./src/main/resources:/docker-entrypoint-initdb.d
+      - ./contentApi/src/main/resources:/docker-entrypoint-initdb.d
     networks:
       - contentapi-network
     healthcheck:
@@ -21,8 +21,8 @@ services:
 
   contentapi:
     build:
-      context: ./contentApi
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./contentApi/Dockerfile
     image: 'contentapi:latest'
     container_name: 'contentapi'
     depends_on:
@@ -44,7 +44,7 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ./src/main/resources:/docker-entrypoint-initdb.d
+      - ./userApi/src/main/resources:/docker-entrypoint-initdb.d
     networks:
       - userapi-network
     healthcheck:
@@ -55,8 +55,8 @@ services:
 
   userapi:
     build:
-      context: ./userApi
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./userApi/Dockerfile
     image: 'userapi:latest'
     container_name: 'userapi'
     depends_on:
