@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
+import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
+import cs4337.group9.mediumwebsite.Exceptions.ResourceNotFoundException;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -35,8 +39,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserEntity user) {
-        userService.createUser(user);
-        return new ResponseEntity<>("User created successfully!", HttpStatus.CREATED);
+        try {
+            userService.createUser(user);
+            return new ResponseEntity<>("User created successfully!", HttpStatus.CREATED);
+        } catch (UserAlreadyExistsException ex) {
+            throw new UserAlreadyExistsException(user.getEmail());
+        }
     }
 
     @PutMapping("/{userId}")
