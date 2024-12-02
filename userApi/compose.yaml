@@ -11,7 +11,7 @@ services:
     volumes:
       - ./src/main/resources:/docker-entrypoint-initdb.d
     networks:
-        - userapi-network
+        - shared-network
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-psecret" ]
       interval: 10s
@@ -26,10 +26,10 @@ services:
       mysql:
         condition: service_healthy
     networks:
-      - userapi-network
+      - shared-network
     ports:
       - '8080:8080'
 
 networks:
-    userapi-network:
+    shared-network:
         driver: bridge

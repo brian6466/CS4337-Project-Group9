@@ -1,5 +1,6 @@
 package cs4337.group9.mediumwebsite.Controller;
 
+import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,14 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserEntity> getUser(@PathVariable UUID userId) {
-        UserEntity user = userService.getUserById(userId);
+    public ResponseEntity<UserDTO> getUser(@PathVariable UUID userId) {
+        UserDTO user = userService.getUserDtoById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> getUsers() {
-        List<UserEntity> users = userService.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        List<UserDTO> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -61,4 +62,11 @@ public class UserController {
         userService.unbanUser(userId, adminId);
         return new ResponseEntity<>("User unbanned successfully!", HttpStatus.OK);
     }
+
+    @GetMapping("/internal/{email}")
+    public ResponseEntity<UserEntity> getUserForAuthService(@PathVariable String email) {
+        UserEntity userEntity = userService.getUserEntityByEmail(email);
+        return ResponseEntity.ok(userEntity);
+    }
+
 }
