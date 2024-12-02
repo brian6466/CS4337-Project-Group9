@@ -1,5 +1,6 @@
 package cs4337.group9.mediumwebsite.Controller;
 
+import cs4337.group9.authapi.DTO.AuthUserDTO;
 import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Service.UserService;
@@ -7,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
 import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
-import cs4337.group9.mediumwebsite.Exceptions.ResourceNotFoundException;
 
 
 import java.util.List;
@@ -72,9 +71,9 @@ public class UserController {
     }
 
     @GetMapping("/internal/{email}")
-    public ResponseEntity<UserEntity> getUserForAuthService(@PathVariable String email) {
-        UserEntity userEntity = userService.getUserEntityByEmail(email);
-        return ResponseEntity.ok(userEntity);
+    public ResponseEntity<AuthUserDTO> getUserForAuthService(@PathVariable String email) {
+        AuthUserDTO authUserDTO = userService.getAuthUserDTOByEmail(email);
+        return ResponseEntity.ok(authUserDTO);
     }
 
 }

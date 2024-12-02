@@ -18,4 +18,6 @@ public class AuthController {
         String token = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(token);
     }
+
+
 }

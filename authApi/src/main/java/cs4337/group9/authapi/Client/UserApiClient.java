@@ -1,9 +1,15 @@
 package cs4337.group9.authapi.Client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cs4337.group9.authapi.DTO.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 
 @Service
 public class UserApiClient {
@@ -19,6 +25,20 @@ public class UserApiClient {
 
     public User fetchUserByEmail(String email) {
         String url = userApiUrl + "/" + email;
-        return restTemplate.getForObject(url, User.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept", "*/*");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        String jsonResponse = response.getBody();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(jsonResponse, User.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Error mapping JSON to User", e);
+        }
     }
 }
+

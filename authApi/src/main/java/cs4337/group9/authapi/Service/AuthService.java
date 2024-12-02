@@ -24,10 +24,12 @@ public class AuthService {
     public String login(String email, String password) {
         User user = userApiClient.fetchUserByEmail(email);
 
+        System.out.println(user);
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
         return jwtUtil.generateToken(user.getEmail(), user.getRole());
     }
+
 }

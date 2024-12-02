@@ -1,5 +1,6 @@
 package cs4337.group9.mediumwebsite.Service;
 
+import cs4337.group9.authapi.DTO.AuthUserDTO;
 import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Entity.AdminActionEntity;
@@ -43,6 +44,17 @@ public class UserService {
         return dto;
     }
 
+    public AuthUserDTO userEntityToAuthUserDto (UserEntity userEntity){
+        AuthUserDTO dto = new AuthUserDTO();
+        dto.setId(userEntity.getId());
+        dto.setUsername(userEntity.getUsername());
+        dto.setEmail(userEntity.getEmail());
+        dto.setPassword(userEntity.getPassword());
+        dto.setRole(userEntity.getRole().toString());
+        dto.setStatus(userEntity.getStatus().toString());
+        return dto;
+    }
+
     public List<UserDTO> userEntitiesToUserDtos(List<UserEntity> userEntities) {
         return userEntities.stream()
                 .map(this::userEntityToUserDto)
@@ -76,9 +88,10 @@ public class UserService {
         return userEntityToUserDto(userEntity);
     }
 
-    public UserEntity getUserEntityByEmail(String email) {
-        return userRepository.findByEmail(email)
+    public AuthUserDTO getAuthUserDTOByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
+        return userEntityToAuthUserDto(userEntity);
     }
 
     @Transactional
