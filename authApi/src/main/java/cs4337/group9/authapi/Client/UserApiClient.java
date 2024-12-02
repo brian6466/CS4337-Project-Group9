@@ -17,6 +17,9 @@ public class UserApiClient {
     @Value("${user.api.url}")
     private String userApiUrl;
 
+    @Value("${internal.secret.key}")
+    private String internalSecretKey;
+
     private final RestTemplate restTemplate;
 
     public UserApiClient(RestTemplate restTemplate) {
@@ -28,6 +31,8 @@ public class UserApiClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "*/*");
+
+        headers.add("Authorization", internalSecretKey);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
