@@ -2,11 +2,13 @@ package cs4337.group9.contentapi.Controller;
 
 import cs4337.group9.contentapi.Entity.ArticleEntity;
 import cs4337.group9.contentapi.Service.ArticleService;
+import cs4337.group9.contentapi.Service.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,17 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private ShareService shareService;
+
+    @GetMapping("/{articleId}/share/{platform}")
+    public ResponseEntity<Void> shareArticle(@PathVariable UUID articleId, @PathVariable String platform) {
+        String shareLink = shareService.generateShareLink(platform, articleId);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(shareLink))
+                .build();
+    }
 
     @GetMapping("/{articleId}")
     public ResponseEntity<ArticleEntity> getArticle(@PathVariable UUID articleId) {
