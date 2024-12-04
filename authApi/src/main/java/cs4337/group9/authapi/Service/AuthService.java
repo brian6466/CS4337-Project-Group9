@@ -1,9 +1,9 @@
 package cs4337.group9.authapi.Service;
 
 import cs4337.group9.authapi.Client.UserApiClient;
+import cs4337.group9.authapi.DTO.ValidationResponse;
 import cs4337.group9.authapi.Util.JwtUtil;
 
-import cs4337.group9.authapi.DTO.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,14 +22,15 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     public String login(String email, String password) {
-        User user = userApiClient.fetchUserByEmail(email);
+        ValidationResponse validationResponse = userApiClient.validateUserCredentials(email, password);
 
-        System.out.println(user);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+        if (!validationResponse.isValid()) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        String role = validationResponse.getRole();
+
+        return jwtUtil.generateToken(email, role);
     }
 
 }

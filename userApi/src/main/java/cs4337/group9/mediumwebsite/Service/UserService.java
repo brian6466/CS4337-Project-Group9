@@ -1,7 +1,7 @@
 package cs4337.group9.mediumwebsite.Service;
 
-import cs4337.group9.authapi.DTO.AuthUserDTO;
 import cs4337.group9.mediumwebsite.DTO.UserDTO;
+import cs4337.group9.mediumwebsite.DTO.ValidationResponse;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Entity.AdminActionEntity;
 import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
@@ -44,17 +44,6 @@ public class UserService {
         return dto;
     }
 
-    public AuthUserDTO userEntityToAuthUserDto (UserEntity userEntity){
-        AuthUserDTO dto = new AuthUserDTO();
-        dto.setId(userEntity.getId());
-        dto.setUsername(userEntity.getUsername());
-        dto.setEmail(userEntity.getEmail());
-        dto.setPassword(userEntity.getPassword());
-        dto.setRole(userEntity.getRole().toString());
-        dto.setStatus(userEntity.getStatus().toString());
-        return dto;
-    }
-
     public List<UserDTO> userEntitiesToUserDtos(List<UserEntity> userEntities) {
         return userEntities.stream()
                 .map(this::userEntityToUserDto)
@@ -86,12 +75,6 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId.toString()));
         return userEntityToUserDto(userEntity);
-    }
-
-    public AuthUserDTO getAuthUserDTOByEmail(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(email));
-        return userEntityToAuthUserDto(userEntity);
     }
 
     @Transactional
@@ -141,5 +124,21 @@ public class UserService {
     public List<UserDTO> getAllUsers() {
         List<UserEntity> users = userRepository.findAll();
         return userEntitiesToUserDtos(users);
+    }
+
+    public ValidationResponse validateCredentials(String email, String password) {
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+        ValidationResponse response = new ValidationResponse();
+        System.out.println(password);
+        System.out.println(passwordEncoder.matches(password, userEntity.getPassword()));
+        if (passwordEncoder.matches(password, userEntity.getPassword())) {
+            response.setValid(true);
+            response.setRole(userEntity.getRole().toString());
+        } else {
+            response.setValid(false);
+        }
+
+        return response;
     }
 }

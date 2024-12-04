@@ -39,8 +39,7 @@ public class JwtValidationFilter extends OncePerRequestFilter {
             return true;
         }
 
-        if (path.startsWith("/user/internal") && internalSecretKey.equals(authorizationHeader)) {
-
+        if (path.startsWith("/user/validate") && internalSecretKey.equals(authorizationHeader)) {
             return true;
         }
 

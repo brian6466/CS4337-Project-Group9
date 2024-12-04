@@ -1,7 +1,7 @@
 package cs4337.group9.mediumwebsite.Controller;
 
-import cs4337.group9.authapi.DTO.AuthUserDTO;
 import cs4337.group9.mediumwebsite.DTO.UserDTO;
+import cs4337.group9.mediumwebsite.DTO.ValidationResponse;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -70,10 +71,17 @@ public class UserController {
         return new ResponseEntity<>("User unbanned successfully!", HttpStatus.OK);
     }
 
-    @GetMapping("/internal/{email}")
-    public ResponseEntity<AuthUserDTO> getUserForAuthService(@PathVariable String email) {
-        AuthUserDTO authUserDTO = userService.getAuthUserDTOByEmail(email);
-        return ResponseEntity.ok(authUserDTO);
+    @PostMapping("/validate")
+    public ResponseEntity<ValidationResponse> validateUser(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+
+        ValidationResponse response = userService.validateCredentials(email, password);
+        if (response.isValid()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(401).body(response);
+        }
     }
 
 }

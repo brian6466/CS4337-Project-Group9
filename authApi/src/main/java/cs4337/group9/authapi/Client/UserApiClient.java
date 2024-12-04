@@ -1,7 +1,6 @@
 package cs4337.group9.authapi.Client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import cs4337.group9.authapi.DTO.User;
+import cs4337.group9.authapi.DTO.ValidationResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +8,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -26,23 +28,27 @@ public class UserApiClient {
         this.restTemplate = restTemplate;
     }
 
-    public User fetchUserByEmail(String email) {
-        String url = userApiUrl + "/" + email;
+    public ValidationResponse validateUserCredentials(String email, String password) {
+        String url = userApiUrl + "/validate";
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Accept", "*/*");
-
+        headers.add("Accept", "application/json");
         headers.add("Authorization", internalSecretKey);
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("email", email);
+        requestBody.put("password", password);
 
-        String jsonResponse = response.getBody();
-        ObjectMapper mapper = new ObjectMapper();
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+
         try {
-            return mapper.readValue(jsonResponse, User.class);
+            ResponseEntity<ValidationResponse> response = restTemplate.exchange(
+                    url, HttpMethod.POST, entity, ValidationResponse.class);
+            return response.getBody();
         } catch (Exception e) {
-            throw new RuntimeException("Error mapping JSON to User", e);
+            ValidationResponse failedResponse = new ValidationResponse();
+            failedResponse.setValid(false);
+            return failedResponse;
         }
     }
 }
