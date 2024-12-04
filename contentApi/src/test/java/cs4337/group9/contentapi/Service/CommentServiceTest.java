@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class CommentServiceTest {
@@ -113,7 +114,9 @@ public class CommentServiceTest {
         UUID commentId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
         CommentEntity comment = new CommentEntity();
+        comment.setId(commentId);
         comment.setUserId(userId);
+
         when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
         doNothing().when(commentRepository).delete(comment);
 
@@ -121,5 +124,23 @@ public class CommentServiceTest {
 
         assertEquals("Comment was successfully deleted, id (" + commentId + ")", result);
         verify(commentRepository, times(1)).delete(comment);
+    }
+
+    @Test
+    public void testDeleteCommentUnauthorized() {
+        UUID commentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
+        UUID differentUserId = UUID.randomUUID();
+        CommentEntity comment = new CommentEntity();
+        comment.setId(commentId);
+        comment.setUserId(differentUserId);
+
+        when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
+
+        UnauthorizedAccessException exception = assertThrows(UnauthorizedAccessException.class, () -> {
+            commentService.deleteComment(commentId, userId);
+        });
+
+        assertEquals("You are not authorized to delete this comment.", exception.getMessage());
     }
 }

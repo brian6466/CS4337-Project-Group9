@@ -36,8 +36,8 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{articleId}")
-    public ResponseEntity<String> deleteArticle(@PathVariable UUID articleId) {
-        articleService.deleteArticle(articleId);
+    public ResponseEntity<String> deleteArticle(@PathVariable UUID articleId, @RequestParam UUID userId) {
+        articleService.deleteArticle(articleId, userId);
         return new ResponseEntity<>("Article Successfully deleted!", HttpStatus.OK);
     }
 

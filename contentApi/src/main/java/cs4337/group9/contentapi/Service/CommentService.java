@@ -34,7 +34,7 @@ public class CommentService {
 
         if (comment.getUserId().equals(userid))
             return comment;
-        else throw new UnauthorizedAccessException(userid.toString());
+        else throw new UnauthorizedAccessException("You are not authorized to view this comment.");
     }
 
     @Transactional
@@ -47,7 +47,11 @@ public class CommentService {
 
     @Transactional
     public String deleteComment(UUID commentId, UUID userid) {
-        CommentEntity comment = getComment(commentId, userid);
+        CommentEntity comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException(commentId.toString()));
+        if (!comment.getUserId().equals(userid)) {
+            throw new UnauthorizedAccessException("You are not authorized to delete this comment.");
+        }
         commentRepository.delete(comment);
         return String.format("Comment was successfully deleted, id (%s)", commentId);
     }

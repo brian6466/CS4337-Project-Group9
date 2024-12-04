@@ -1,5 +1,6 @@
 package cs4337.group9.contentapi.Controller;
 import cs4337.group9.contentapi.Entity.CommentEntity;
+import cs4337.group9.contentapi.Exceptions.UnauthorizedAccessException;
 import cs4337.group9.contentapi.Entity.ArticleEntity;
 import cs4337.group9.contentapi.Service.CommentService;
 import cs4337.group9.contentapi.Service.ArticleService;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class CommentControllerTest {
@@ -112,5 +114,20 @@ public class CommentControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(message, response.getBody());
+    }
+
+    @Test
+    public void testDeleteCommentUnauthorized() {
+        UUID articleId = UUID.randomUUID();
+        UUID commentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
+        doThrow(new UnauthorizedAccessException("You are not authorized to delete this comment."))
+                .when(commentService).deleteComment(commentId, userId);
+
+        UnauthorizedAccessException exception = assertThrows(UnauthorizedAccessException.class, () -> {
+            commentController.deleteComment(articleId, commentId, userId);
+        });
+
+        assertEquals("You are not authorized to delete this comment.", exception.getMessage());
     }
 }

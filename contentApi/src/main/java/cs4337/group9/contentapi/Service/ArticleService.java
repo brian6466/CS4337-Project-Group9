@@ -1,15 +1,14 @@
 package cs4337.group9.contentapi.Service;
 
-
 import cs4337.group9.contentapi.Entity.ArticleEntity;
 import cs4337.group9.contentapi.Exceptions.ArticleNotFoundException;
+import cs4337.group9.contentapi.Exceptions.UnauthorizedAccessException;
 import cs4337.group9.contentapi.Repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @Service
 public class ArticleService {
@@ -30,7 +29,12 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
-    public void deleteArticle(UUID articleId) {
+    public void deleteArticle(UUID articleId, UUID userId) {
+        ArticleEntity article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId.toString()));
+        if (!article.getAuthorId().equals(userId)) {
+            throw new UnauthorizedAccessException("You are not authorized to delete this article.");
+        }
         articleRepository.deleteById(articleId);
     }
 

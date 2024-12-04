@@ -1,5 +1,6 @@
 package cs4337.group9.contentapi.Controller;
 import cs4337.group9.contentapi.Entity.ArticleEntity;
+import cs4337.group9.contentapi.Exceptions.UnauthorizedAccessException;
 import cs4337.group9.contentapi.Service.ArticleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class ArticleControllerTest {
@@ -76,11 +78,26 @@ public class ArticleControllerTest {
     @Test
     public void testDeleteArticle() {
         UUID articleId = UUID.randomUUID();
-        doNothing().when(articleService).deleteArticle(articleId);
+        UUID userId = UUID.randomUUID();
+        doNothing().when(articleService).deleteArticle(articleId, userId);
 
-        ResponseEntity<String> response = articleController.deleteArticle(articleId);
+        ResponseEntity<String> response = articleController.deleteArticle(articleId, userId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Article Successfully deleted!", response.getBody());
+    }
+
+    @Test
+    public void testDeleteArticleUnauthorized() {
+        UUID articleId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
+        doThrow(new UnauthorizedAccessException("You are not authorized to delete this article."))
+                .when(articleService).deleteArticle(articleId, userId);
+
+        UnauthorizedAccessException exception = assertThrows(UnauthorizedAccessException.class, () -> {
+            articleController.deleteArticle(articleId, userId);
+        });
+
+        assertEquals("You are not authorized to delete this article.", exception.getMessage());
     }
 }
