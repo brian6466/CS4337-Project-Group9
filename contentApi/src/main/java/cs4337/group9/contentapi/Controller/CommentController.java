@@ -46,6 +46,7 @@ public class CommentController {
             @PathVariable UUID articleId,
             @PathVariable UUID commentId,
             @RequestParam UUID userId) {
+        validArticle(articleId);
         String message = commentService.deleteComment(commentId, userId);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
