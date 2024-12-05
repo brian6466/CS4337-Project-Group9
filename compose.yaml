@@ -63,9 +63,21 @@ services:
       userapi-mysql:
         condition: service_healthy
     networks:
+      - shared-network
       - userapi-network
     ports:
       - '8080:8080'
+
+  authapi:
+    build:
+      context: .
+      dockerfile: ./authApi/Dockerfile
+    image: 'authapi:latest'
+    container_name: 'authapi'
+    networks:
+      - shared-network
+    ports:
+      - '8082:8080'
 
 networks:
   contentapi-network:

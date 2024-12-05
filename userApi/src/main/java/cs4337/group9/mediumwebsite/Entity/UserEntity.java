@@ -1,7 +1,7 @@
 package cs4337.group9.mediumwebsite.Entity;
 
-import cs4337.group9.mediumwebsite.enums.Status;
-import cs4337.group9.mediumwebsite.enums.Role;
+import cs4337.group9.mediumwebsite.Enum.Status;
+import cs4337.group9.mediumwebsite.Enum.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

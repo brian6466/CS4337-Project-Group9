@@ -1,29 +1,53 @@
 package cs4337.group9.mediumwebsite.Service;
 
+import cs4337.group9.mediumwebsite.DTO.UserDTO;
+import cs4337.group9.mediumwebsite.DTO.ValidationResponse;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Entity.AdminActionEntity;
 import cs4337.group9.mediumwebsite.Exceptions.UserAlreadyExistsException;
 import cs4337.group9.mediumwebsite.Exceptions.UserNotFoundException;
 import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
 import cs4337.group9.mediumwebsite.Repostiory.AdminActionRepository;
-import cs4337.group9.mediumwebsite.enums.Status;
-import cs4337.group9.mediumwebsite.enums.Action;
+import cs4337.group9.mediumwebsite.Enum.Status;
+import cs4337.group9.mediumwebsite.Enum.Action;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final AdminActionRepository adminActionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, AdminActionRepository adminActionRepository) {
+    public UserService(UserRepository userRepository, AdminActionRepository adminActionRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.adminActionRepository = adminActionRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public UserDTO userEntityToUserDto (UserEntity userEntity){
+        UserDTO dto = new UserDTO();
+        dto.setUserId(userEntity.getId());
+        dto.setUsername(userEntity.getUsername());
+        dto.setEmail(userEntity.getEmail());
+        dto.setAbout(userEntity.getAbout());
+        dto.setProfilePicture(userEntity.getProfilePicture());
+        dto.setRole(userEntity.getRole());
+        dto.setStatus(userEntity.getStatus());
+        return dto;
+    }
+
+    public List<UserDTO> userEntitiesToUserDtos(List<UserEntity> userEntities) {
+        return userEntities.stream()
+                .map(this::userEntityToUserDto)
+                .collect(Collectors.toList());
     }
 
     public void checkIfUserExists(UUID userId) {
@@ -43,12 +67,14 @@ public class UserService {
         }
         UUID generatedId = UUID.randomUUID();
         user.setId(generatedId);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-    public UserEntity getUserById(UUID userId) {
-        return userRepository.findById(userId)
+    public UserDTO getUserDtoById(UUID userId) {
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId.toString()));
+        return userEntityToUserDto(userEntity);
     }
 
     @Transactional
@@ -95,7 +121,24 @@ public class UserService {
         adminActionRepository.save(adminAction);
     }
 
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        List<UserEntity> users = userRepository.findAll();
+        return userEntitiesToUserDtos(users);
+    }
+
+    public ValidationResponse validateCredentials(String email, String password) {
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+        ValidationResponse response = new ValidationResponse();
+        System.out.println(password);
+        System.out.println(passwordEncoder.matches(password, userEntity.getPassword()));
+        if (passwordEncoder.matches(password, userEntity.getPassword())) {
+            response.setValid(true);
+            response.setRole(userEntity.getRole().toString());
+        } else {
+            response.setValid(false);
+        }
+
+        return response;
     }
 }

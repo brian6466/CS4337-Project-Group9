@@ -1,0 +1,14 @@
+services:
+
+  authapi:
+    build: .
+    image: 'authapi:latest'
+    container_name: 'authapi'
+    networks:
+      - shared-network
+    ports:
+      - '8082:8080'
+
+networks:
+  shared-network:
+    driver: bridge
