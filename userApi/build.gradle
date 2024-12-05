@@ -4,6 +4,15 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:4.0.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Ensure JUnit 5 is set up correctly
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
 }
