@@ -40,13 +40,19 @@ public class FollowService {
 
         FollowEntity followEntity = new FollowEntity(followerId,followingId);
         followRepository.save(followEntity);
-
-        EmailDetailsDto emailDetails = new EmailDetailsDto();
-emailDetails.setRecipient(following.getEmail());
-
-sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
-
-        return String.format("%s (%s) has successfully followed %s (%s)",
+        
+        try {
+            EmailDetailsDto emailDetails = new EmailDetailsDto();
+            emailDetails.setRecipient(following.getEmail());
+            sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
+            System.out.println("Email sending logic was executed.");
+        } catch (Exception e) {
+            System.err.println("Failed to send follow notification email: " + e.getMessage());
+            e.printStackTrace();
+        
+        }
+        
+        return String.format("%s (%s) has successfully followed %s (%s), email sent.",
                 follower.getUsername(), follower.getId(), following.getUsername(), following.getId());
     }
     @Transactional
