@@ -1,0 +1,180 @@
+# Content API Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contentapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: contentapi
+  template:
+    metadata:
+      labels:
+        app: contentapi
+    spec:
+      containers:
+        - name: contentapi
+          image: contentapi:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8081
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+---
+# User API Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: userapi
+  template:
+    metadata:
+      labels:
+        app: userapi
+    spec:
+      containers:
+        - name: userapi
+          image: userapi:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8080
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+---
+# MySQL Deployment for Content API
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contentapi-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: contentapi-mysql
+  template:
+    metadata:
+      labels:
+        app: contentapi-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-root-password
+            - name: MYSQL_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-root-username
+          volumeMounts:
+            - name: mysql-schema-volume
+              mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+      volumes:
+        - name: mysql-schema-volume
+          configMap:
+            name: contentapi-schema
+
+---
+# MySQL Deployment for User API
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userapi-mysql
+  template:
+    metadata:
+      labels:
+        app: userapi-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-root-password
+            - name: MYSQL_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: mysql-root-username
+          volumeMounts:
+            - name: mysql-schema-volume
+              mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+      volumes:
+        - name: mysql-schema-volume
+          configMap:
+            name: userapi-schema

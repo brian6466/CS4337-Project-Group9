@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: userapi-schema
+data:
+  schema.sql: |
+    CREATE DATABASE IF NOT EXISTS userapi;
+  
+    USE userapi;
+    
+    CREATE TABLE IF NOT EXISTS users (
+    id BINARY(16) PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
+    status VARCHAR(255) DEFAULT 'ACTIVE',
+    about TEXT,
+    profile_picture VARCHAR(255), -- URL to image
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+    
+    CREATE TABLE IF NOT EXISTS followers (
+    id BINARY(16) PRIMARY KEY,
+    follower_id BINARY(16) NOT NULL,
+    following_id BINARY(16) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+    
+    CREATE TABLE IF NOT EXISTS admin_actions (
+    id BINARY(16) PRIMARY KEY,
+    admin_id BINARY(16) NOT NULL, -- Admin doing the action
+    user_id BINARY(16) NOT NULL,  -- target
+    action VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );

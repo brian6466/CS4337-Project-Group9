@@ -1,0 +1,55 @@
+# Content API Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: contentapi-service
+spec:
+  selector:
+    app: contentapi
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
+---
+# User API Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: userapi-service
+spec:
+  selector:
+    app: userapi
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+# Content API MySQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: contentapi-mysql-service
+spec:
+  selector:
+    app: contentapi-mysql
+  ports:
+    - protocol: TCP
+      port: 3307
+      targetPort: 3306
+  type: ClusterIP
+---
+# User API MySQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: userapi-mysql-service
+spec:
+  selector:
+    app: userapi-mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
