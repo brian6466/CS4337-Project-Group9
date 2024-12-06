@@ -9,7 +9,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.springframework:spring-context-support'
     }
 
 //Commented out as it was causing an error
