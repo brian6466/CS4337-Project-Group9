@@ -1,5 +1,6 @@
 package cs4337.group9.mediumwebsite.Service;
 
+import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import cs4337.group9.mediumwebsite.Entity.FollowEntity;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Repostiory.FollowRepository;
@@ -20,6 +21,9 @@ public class FollowService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public String followUser(UUID followerId, UUID followingId) {
@@ -61,17 +65,23 @@ public class FollowService {
     }
 
 
-    public List<UserEntity> getFollowers(UUID userId) {
+    public List<UserDTO> getFollowers(UUID userId) {
         List<FollowEntity> relationship = followRepository.findByFollowingId(userId);
 
-        return relationship.stream().map(follow -> userRepository.findById(follow.getFollowerId()).orElse(null)).
-                collect(Collectors.toList());
+        return relationship.stream()
+                .map(follow -> userRepository.findById(follow.getFollowerId()).orElse(null))
+                .filter(userEntity -> userEntity != null) // Avoid null results
+                .map(userService::userEntityToUserDto) // Convert UserEntity to UserDTO
+                .collect(Collectors.toList());
     }
 
-    public List<UserEntity> getFollowing(UUID userId) {
+    public List<UserDTO> getFollowing(UUID userId) {
         List<FollowEntity> relationship = followRepository.findByFollowerId(userId);
 
-        return relationship.stream().map(follow -> userRepository.findById(follow.getFollowingId()).orElse(null)).
-                collect(Collectors.toList());
+        return relationship.stream()
+                .map(follow -> userRepository.findById(follow.getFollowingId()).orElse(null))
+                .filter(userEntity -> userEntity != null) // Avoid null results
+                .map(userService::userEntityToUserDto) // Convert UserEntity to UserDTO
+                .collect(Collectors.toList());
     }
 }
