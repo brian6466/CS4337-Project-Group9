@@ -23,5 +23,4 @@ class ContentApiApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
