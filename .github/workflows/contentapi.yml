@@ -38,7 +38,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Content Api with Gradle Wrapper
-        run: ./gradlew :article-service:build
+        run: ./gradlew :contentApi:build
 
       - name: Run tests for Content Api
         run: ./gradlew :contentApi:test
