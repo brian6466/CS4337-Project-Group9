@@ -1,4 +1,6 @@
-dependencies {
+dependencies
+            {
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
@@ -9,8 +11,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework:spring-context-support'
+    }
 
-}
 
 /*test {
     useJUnitPlatform()
