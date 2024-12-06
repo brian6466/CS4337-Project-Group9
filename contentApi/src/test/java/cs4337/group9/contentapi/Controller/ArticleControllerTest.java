@@ -9,9 +9,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ArticleControllerTest {
@@ -82,5 +84,25 @@ public class ArticleControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Article Successfully deleted!", response.getBody());
+    }
+
+    @Test
+    public void testGetAllArticlesEmpty() {
+        when(articleService.getAllArticles()).thenReturn(Collections.emptyList());
+
+        ResponseEntity<List<ArticleEntity>> response = articleController.getAllArticles();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
+    }
+
+    @Test
+    public void testHandleServiceExceptionOnGetArticle() {
+        UUID articleId = UUID.randomUUID();
+        when(articleService.getArticleById(articleId)).thenThrow(new RuntimeException("Database is down"));
+
+        Exception exception = assertThrows(RuntimeException.class, () -> articleController.getArticle(articleId));
+
+        assertEquals("Database is down", exception.getMessage());
     }
 }
