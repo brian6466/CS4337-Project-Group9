@@ -28,7 +28,7 @@ public class SendMailService {
     public void sendFollowNotificationMail(EmailDetailsDto details, String followerUsername) {
         try {
             LOGGER.info("Sending a follow notification email to: {}", details.getRecipient());
-
+    
             String emailBody = String.format("Hi %s,%n%n%s has started following you!", details.getRecipient(), followerUsername);
             String emailSubject = "New Follower Notification";
 
@@ -37,13 +37,16 @@ public class SendMailService {
             mailMessage.setTo(details.getRecipient());
             mailMessage.setText(emailBody);
             mailMessage.setSubject(emailSubject);
-
+    
             javaMailSender.send(mailMessage);
+    
             LOGGER.info("Email sent successfully to {}", details.getRecipient());
-
+    
         } catch (Exception exception) {
             LOGGER.error("Error while sending the email to {}: {}", details.getRecipient(), exception.getMessage());
+            
             throw new RuntimeException("Error while sending the mail: " + exception.getMessage());
         }
     }
+    
 }

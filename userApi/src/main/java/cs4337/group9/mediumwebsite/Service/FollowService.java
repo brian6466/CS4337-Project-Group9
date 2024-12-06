@@ -38,19 +38,16 @@ public class FollowService {
         UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
         UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
 
-        FollowEntity followEntity = new FollowEntity(followerId,followingId);
-        followRepository.save(followEntity);
-        
-        try {
-            EmailDetailsDto emailDetails = new EmailDetailsDto();
-            emailDetails.setRecipient(following.getEmail());
-            sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
-            System.out.println("Email sending logic was executed.");
-        } catch (Exception e) {
-            System.err.println("Failed to send follow notification email: " + e.getMessage());
-            e.printStackTrace();
-        
-        }
+        EmailDetailsDto emailDetails = new EmailDetailsDto();
+emailDetails.setRecipient(following.getEmail());
+
+try {
+    sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
+    System.out.println("Email sending logic was executed successfully.");
+} catch (Exception e) {
+    System.err.println("Failed to send follow notification email: " + e.getMessage());
+    e.printStackTrace();
+}
         
         return String.format("%s (%s) has successfully followed %s (%s), email sent.",
                 follower.getUsername(), follower.getId(), following.getUsername(), following.getId());
