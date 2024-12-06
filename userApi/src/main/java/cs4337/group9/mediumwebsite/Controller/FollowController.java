@@ -1,5 +1,6 @@
 package cs4337.group9.mediumwebsite.Controller;
 
+import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,14 @@ public class FollowController {
     }
 
     @GetMapping("/{userId}/followers")
-    public ResponseEntity<List<UserEntity>> getFollowers(@PathVariable UUID userId) {
-        List<UserEntity> followers = followService.getFollowers(userId);
+    public ResponseEntity<List<UserDTO>> getFollowers(@PathVariable UUID userId) {
+        List<UserDTO> followers = followService.getFollowers(userId);
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/{userId}/following")
-    public ResponseEntity<List<UserEntity>> getFollowing(@PathVariable UUID userId) {
-        List<UserEntity> following = followService.getFollowing(userId);
+    public ResponseEntity<List<UserDTO>> getFollowing(@PathVariable UUID userId) {
+        List<UserDTO> following = followService.getFollowing(userId);
         return ResponseEntity.ok(following);
     }
 }

@@ -84,6 +84,8 @@ public class UserService {
 
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setAbout(updatedUser.getAbout());
+        existingUser.setProfilePicture(updatedUser.getProfilePicture());
 
         userRepository.save(existingUser);
     }

@@ -1,5 +1,6 @@
 package cs4337.group9.mediumwebsite.Service;
 
+import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +26,9 @@ public class FollowService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private SendMailService sendMailService;
 
     @Transactional
@@ -48,7 +52,7 @@ try {
     System.err.println("Failed to send follow notification email: " + e.getMessage());
     e.printStackTrace();
 }
-        
+
         return String.format("%s (%s) has successfully followed %s (%s), email sent.",
                 follower.getUsername(), follower.getId(), following.getUsername(), following.getId());
     }
@@ -75,17 +79,23 @@ try {
     }
 
 
-    public List<UserEntity> getFollowers(UUID userId) {
+    public List<UserDTO> getFollowers(UUID userId) {
         List<FollowEntity> relationship = followRepository.findByFollowingId(userId);
 
-        return relationship.stream().map(follow -> userRepository.findById(follow.getFollowerId()).orElse(null)).
-                collect(Collectors.toList());
+        return relationship.stream()
+                .map(follow -> userRepository.findById(follow.getFollowerId()).orElse(null))
+                .filter(userEntity -> userEntity != null) // Avoid null results
+                .map(userService::userEntityToUserDto) // Convert UserEntity to UserDTO
+                .collect(Collectors.toList());
     }
 
-    public List<UserEntity> getFollowing(UUID userId) {
+    public List<UserDTO> getFollowing(UUID userId) {
         List<FollowEntity> relationship = followRepository.findByFollowerId(userId);
 
-        return relationship.stream().map(follow -> userRepository.findById(follow.getFollowingId()).orElse(null)).
-                collect(Collectors.toList());
+        return relationship.stream()
+                .map(follow -> userRepository.findById(follow.getFollowingId()).orElse(null))
+                .filter(userEntity -> userEntity != null) // Avoid null results
+                .map(userService::userEntityToUserDto) // Convert UserEntity to UserDTO
+                .collect(Collectors.toList());
     }
 }
