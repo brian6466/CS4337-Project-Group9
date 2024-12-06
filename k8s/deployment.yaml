@@ -17,22 +17,27 @@ spec:
         - name: contentapi
           image: contentapi:latest
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 200m
+            limits:
+              cpu: 500m
           ports:
             - containerPort: 8081
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8081
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-          readinessProbe:
-              httpGet:
-                path: /actuator/health
-                port: 8081
-              initialDelaySeconds: 10
-              periodSeconds: 10
-              timeoutSeconds: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8081
+#            initialDelaySeconds: 30
+#            periodSeconds: 10
+#            timeoutSeconds: 5
+#          readinessProbe:
+#              httpGet:
+#                path: /actuator/health
+#                port: 8081
+#              initialDelaySeconds: 10
+#              periodSeconds: 10
+#              timeoutSeconds: 5
 ---
 # User API Deployment
 apiVersion: apps/v1
@@ -53,22 +58,29 @@ spec:
         - name: userapi
           image: userapi:latest
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "2"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-          readinessProbe:
-              httpGet:
-                path: /actuator/health
-                port: 8080
-              initialDelaySeconds: 10
-              periodSeconds: 10
-              timeoutSeconds: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#            initialDelaySeconds: 30
+#            periodSeconds: 10
+#            timeoutSeconds: 5
+#          readinessProbe:
+#              httpGet:
+#                path: /actuator/health
+#                port: 8080
+#              initialDelaySeconds: 10
+#              periodSeconds: 10
+#              timeoutSeconds: 5
 ---
 # MySQL Deployment for Content API
 apiVersion: apps/v1
