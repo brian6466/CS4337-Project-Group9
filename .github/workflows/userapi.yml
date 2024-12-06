@@ -1,4 +1,4 @@
-name: User Api CI/CD
+name: User Api CI Pipeline
 
 on:
   push:

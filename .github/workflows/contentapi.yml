@@ -1,4 +1,4 @@
-name: Content Api CI/CD
+name: Content Api CI Pipeline
 
 on:
   push:
