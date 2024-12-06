@@ -21,6 +21,7 @@ subprojects {
     repositories {
         mavenCentral()
     }
+
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
@@ -30,6 +31,15 @@ subprojects {
         implementation 'org.projectlombok:lombok:1.18.32'
         annotationProcessor 'org.projectlombok:lombok:1.18.32'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+        // Adding necessary dependencies for JUnit 5 and Mockito
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'  // JUnit 5 API
+        testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'  // JUnit 5 Engine
+        testImplementation 'org.mockito:mockito-core:4.6.1'  // Mockito core for mocking
+        testImplementation 'org.mockito:mockito-junit-jupiter:4.6.1'  // Mockito JUnit 5 support
     }
 
+    test {
+        useJUnitPlatform()  // Ensure JUnit 5 is used
+    }
 }

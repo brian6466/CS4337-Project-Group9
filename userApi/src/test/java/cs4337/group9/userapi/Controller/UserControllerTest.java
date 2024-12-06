@@ -1,16 +1,14 @@
 package cs4337.group9.userapi.Controller;
 
-import cs4337.group9.mediumwebsite.enums.Role;
 import cs4337.group9.mediumwebsite.Controller.UserController;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Service.UserService;
-import cs4337.group9.mediumwebsite.enums.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,6 +20,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 
     @InjectMocks
@@ -36,14 +35,14 @@ public class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);  // Initialize the mocks
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build(); // Setup MockMvc
-
         userId = UUID.randomUUID(); // Generate a test UUID for user
-        UserEntity user =
-                new UserEntity(UUID.randomUUID(), "testuser", "test@example.com", "password123", Role.USER, Status.ACTIVE, "About me", "profilePicUrl", null, null);        user.setPassword("password123");
-        user.setRole(cs4337.group9.mediumwebsite.enums.Role.USER);  // Set role for the user
-        user.setStatus(cs4337.group9.mediumwebsite.enums.Status.ACTIVE); // Set status for the user
+
+        // Initialize UserEntity with the same UUID as userId
+        user = new UserEntity(userId, "testuser", "test@example.com", "password123",
+                cs4337.group9.mediumwebsite.enums.Role.USER,
+                cs4337.group9.mediumwebsite.enums.Status.ACTIVE,
+                "About me", "profilePicUrl", null, null);
     }
 
     @Test
