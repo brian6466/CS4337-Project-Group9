@@ -1,6 +1,5 @@
-package cs4337.group9.userapi.Controller;
+package cs4337.group9.mediumwebsite.Controller;
 
-import cs4337.group9.mediumwebsite.Controller.UserController;
 import cs4337.group9.mediumwebsite.DTO.UserDTO;
 import cs4337.group9.mediumwebsite.DTO.ValidationResponse;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
