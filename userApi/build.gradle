@@ -1,5 +1,4 @@
-dependencies
-            {
+dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -13,7 +12,7 @@ dependencies
     implementation 'org.springframework:spring-context-support'
     }
 
-
+//Commented out as it was causing an error
 /*test {
     useJUnitPlatform()
     testLogging {
