@@ -1,0 +1,88 @@
+services:
+  # CONTENTAPI
+  contentapi-mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=contentapi'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_USER=user'
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./contentApi/src/main/resources:/docker-entrypoint-initdb.d
+    networks:
+      - contentapi-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-psecret" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  contentapi:
+    build:
+      context: .
+      dockerfile: ./contentApi/Dockerfile
+    image: 'contentapi:latest'
+    container_name: 'contentapi'
+    depends_on:
+      contentapi-mysql:
+        condition: service_healthy
+    networks:
+      - contentapi-network
+    ports:
+      - '8081:8080'
+
+  # USERAPI
+  userapi-mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=userapi'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_USER=user'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./userApi/src/main/resources:/docker-entrypoint-initdb.d
+    networks:
+      - userapi-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-psecret" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  userapi:
+    build:
+      context: .
+      dockerfile: ./userApi/Dockerfile
+    image: 'userapi:latest'
+    container_name: 'userapi'
+    depends_on:
+      userapi-mysql:
+        condition: service_healthy
+    networks:
+      - shared-network
+      - userapi-network
+    ports:
+      - '8080:8080'
+
+  authapi:
+    build:
+      context: .
+      dockerfile: ./authApi/Dockerfile
+    image: 'authapi:latest'
+    container_name: 'authapi'
+    networks:
+      - shared-network
+    ports:
+      - '8082:8080'
+
+networks:
+  contentapi-network:
+    driver: bridge
+  userapi-network:
+    driver: bridge
+  shared-network:
+    driver: bridge

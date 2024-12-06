@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS admin_actions (
     id BINARY(16) PRIMARY KEY,
     admin_id BINARY(16) NOT NULL, -- Admin doing the action
     user_id BINARY(16) NOT NULL,  -- target
-    action ENUM('BAN', 'UNBAN') NOT NULL,
+    action VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

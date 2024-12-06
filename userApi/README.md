@@ -1,2 +1,2 @@
-# CS4337-Group9-Project
-Group 9 Medium Article Website
+# CS4337-Group9-Project-UserApi
+User Api
