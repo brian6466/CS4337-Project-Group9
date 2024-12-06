@@ -40,3 +40,5 @@ jobs:
       - name: Build Content Api with Gradle Wrapper
         run: ./gradlew :article-service:build
 
+      - name: Run tests for Content Api
+        run: ./gradlew :contentApi:test
