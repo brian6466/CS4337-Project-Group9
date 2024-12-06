@@ -1,17 +1,20 @@
 package cs4337.group9.mediumwebsite.Service;
 
 import cs4337.group9.mediumwebsite.DTO.UserDTO;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cs4337.group9.mediumwebsite.DTO.EmailDetailsDto;
 import cs4337.group9.mediumwebsite.Entity.FollowEntity;
 import cs4337.group9.mediumwebsite.Entity.UserEntity;
 import cs4337.group9.mediumwebsite.Repostiory.FollowRepository;
 import cs4337.group9.mediumwebsite.Repostiory.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
@@ -25,6 +28,9 @@ public class FollowService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SendMailService sendMailService;
+
     @Transactional
     public String followUser(UUID followerId, UUID followingId) {
         if (followerId.equals(followingId))
@@ -36,10 +42,18 @@ public class FollowService {
         UserEntity follower = userRepository.findById(followerId).orElseThrow (() -> new IllegalArgumentException("FollowerId not found"));
         UserEntity following = userRepository.findById(followingId).orElseThrow (() -> new IllegalArgumentException("FollowingId not found"));
 
-        FollowEntity followEntity = new FollowEntity(followerId,followingId);
-        followRepository.save(followEntity);
+        EmailDetailsDto emailDetails = new EmailDetailsDto();
+emailDetails.setRecipient(following.getEmail());
 
-        return String.format("%s (%s) has successfully followed %s (%s)",
+try {
+    sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
+    System.out.println("Email sending logic was executed successfully.");
+} catch (Exception e) {
+    System.err.println("Failed to send follow notification email: " + e.getMessage());
+    e.printStackTrace();
+}
+
+        return String.format("%s (%s) has successfully followed %s (%s), email sent.",
                 follower.getUsername(), follower.getId(), following.getUsername(), following.getId());
     }
     @Transactional
