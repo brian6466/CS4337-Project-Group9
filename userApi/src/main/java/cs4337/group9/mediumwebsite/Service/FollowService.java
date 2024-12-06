@@ -42,11 +42,9 @@ public class FollowService {
         followRepository.save(followEntity);
 
         EmailDetailsDto emailDetails = new EmailDetailsDto();
-        emailDetails.setRecipient(following.getEmail());
-        emailDetails.setEmailSubject("New Follower Notification");
-        emailDetails.setEmailBody(String.format("Hello %s,%n%n%s has started following you!", following.getUsername(), follower.getUsername()));
-        
-        sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
+emailDetails.setRecipient(following.getEmail());
+
+sendMailService.sendFollowNotificationMail(emailDetails, follower.getUsername());
 
         return String.format("%s (%s) has successfully followed %s (%s)",
                 follower.getUsername(), follower.getId(), following.getUsername(), following.getId());
