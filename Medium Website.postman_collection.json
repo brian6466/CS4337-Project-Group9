@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "495f3633-35ce-411f-b420-a517a22044d4",
+		"_postman_id": "fc71c46b-e32d-4094-b11e-d07ddf9ee986",
 		"name": "Medium Website",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39770283"
@@ -12,6 +12,16 @@
 				{
 					"name": "Create Article",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMkBleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczMzU0OTIxMCwiZXhwIjoxNzMzNTUwMTEwfQ.v6UU6cJU8z5RXwtgIPIshKvPIFtwvJQN3kTTfXrl8aIHuGZKfIWIXlooLEbhvPH18De_OUHErhCmBPj-EGDqyA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -25,15 +35,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Exploring the Wonders of Space\",\n  \"content\": \"Space is vast and mysterious. In this article, we explore the latest discoveries and theories about the cosmos...\",\n  \"authorId\": \"9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3\"\n}\n"
+							"raw": "{\n  \"name\": \"Exploring the Wonders of Space2\",\n  \"content\": \"Space is vast and mysterious. In this article, we explore the latest discoveries and theories about the cosmos..2.\",\n  \"authorId\": \"999d8e26-764a-49ca-80b9-9c098af7ba82\"\n}\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/article",
+							"raw": "http://34.147.134.98/article",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article"
 							]
@@ -52,12 +64,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/article/author/9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
+							"raw": "http://34.147.134.98/article/author/9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"author",
@@ -78,12 +92,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/article",
+							"raw": "http://34.147.134.98/article",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article"
 							]
@@ -102,12 +118,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/article/535acfde-13e5-4b56-b034-65046552b242",
+							"raw": "http://34.147.134.98/article/535acfde-13e5-4b56-b034-65046552b242",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"535acfde-13e5-4b56-b034-65046552b242"
@@ -135,12 +153,14 @@
 							"raw": "{\n  \"name\": \"Exploring the Wonders of Space and Beyond\",\n  \"content\": \"Space is vast and mysterious. In this article, we explore the latest discoveries and theories about the cosmos...\",\n  \"authorId\": \"9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/article/bc4c1fe9-cddc-454f-9854-fba5f26ce2e4",
+							"raw": "http://34.147.134.98/article/bc4c1fe9-cddc-454f-9854-fba5f26ce2e4",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"bc4c1fe9-cddc-454f-9854-fba5f26ce2e4"
@@ -168,12 +188,14 @@
 							"raw": "{\n  \"content\": \"This article provides great insights! Looking forward to more content like this.\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/article/4295953a-553f-4629-980c-0ad7208242a1/comments?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
+							"raw": "http://34.147.134.98/article/4295953a-553f-4629-980c-0ad7208242a1/comments?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"4295953a-553f-4629-980c-0ad7208242a1",
@@ -208,12 +230,14 @@
 							"raw": "github.com/Vyoam/InsomniaToPostmanFormat: Unsupported body type text/plain"
 						},
 						"url": {
-							"raw": "http://localhost:8080/article/4295953a-553f-4629-980c-0ad7208242a1/comments/5b3518d9-a588-4af3-88f4-85996c9cd4b8?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
+							"raw": "http://34.147.134.98/article/4295953a-553f-4629-980c-0ad7208242a1/comments/5b3518d9-a588-4af3-88f4-85996c9cd4b8?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"4295953a-553f-4629-980c-0ad7208242a1",
@@ -241,12 +265,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/article/4295953a-553f-4629-980c-0ad7208242a1/comments/5b3518d9-a588-4af3-88f4-85996c9cd4b8?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
+							"raw": "http://34.147.134.98/article/4295953a-553f-4629-980c-0ad7208242a1/comments/5b3518d9-a588-4af3-88f4-85996c9cd4b8?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"4295953a-553f-4629-980c-0ad7208242a1",
@@ -274,12 +300,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/article/4295953a-553f-4629-980c-0ad7208242a1/comments",
+							"raw": "http://34.147.134.98/article/4295953a-553f-4629-980c-0ad7208242a1/comments",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"4295953a-553f-4629-980c-0ad7208242a1",
@@ -300,12 +328,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/article/4295953a-553f-4629-980c-0ad7208242a1/comments/5b3518d9-a588-4af3-88f4-85996c9cd4b8?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
+							"raw": "http://34.147.134.98/article/4295953a-553f-4629-980c-0ad7208242a1/comments/5b3518d9-a588-4af3-88f4-85996c9cd4b8?userId=9b1c9b1c-8f56-4a8b-bc1b-9f7b8ec1f8d3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"147",
+								"134",
+								"98"
 							],
-							"port": "8080",
 							"path": [
 								"article",
 								"4295953a-553f-4629-980c-0ad7208242a1",
@@ -328,7 +358,7 @@
 			"name": "UserApi",
 			"item": [
 				{
-					"name": "Get followers/following",
+					"name": "Get Followers",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -338,12 +368,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/users/645f3b4e-4486-4d75-a824-84fb3f1dc734/followers",
+							"raw": "http://34.89.65.71/users/645f3b4e-4486-4d75-a824-84fb3f1dc734/followers",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
 							"path": [
 								"users",
 								"645f3b4e-4486-4d75-a824-84fb3f1dc734",
@@ -354,7 +386,35 @@
 					"response": []
 				},
 				{
-					"name": "Follow/Unfollow User",
+					"name": "Get Following",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.1.1"
+							}
+						],
+						"url": {
+							"raw": "http://34.89.65.71/users/645f3b4e-4486-4d75-a824-84fb3f1dc734/followers",
+							"protocol": "http",
+							"host": [
+								"34",
+								"89",
+								"65",
+								"71"
+							],
+							"path": [
+								"users",
+								"645f3b4e-4486-4d75-a824-84fb3f1dc734",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow User",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -364,12 +424,43 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/users/2db47107-a790-4544-8671-66761dd792ef/follow/645f3b4e-4486-4d75-a824-84fb3f1dc734",
+							"raw": "http://34.89.65.71/users/2db47107-a790-4544-8671-66761dd792ef/follow/645f3b4e-4486-4d75-a824-84fb3f1dc734",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
+							"path": [
+								"users",
+								"2db47107-a790-4544-8671-66761dd792ef",
+								"follow",
+								"645f3b4e-4486-4d75-a824-84fb3f1dc734"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.1.1"
+							}
+						],
+						"url": {
+							"raw": "http://34.89.65.71/users/2db47107-a790-4544-8671-66761dd792ef/follow/645f3b4e-4486-4d75-a824-84fb3f1dc734",
+							"protocol": "http",
+							"host": [
+								"34",
+								"89",
+								"65",
+								"71"
+							],
 							"path": [
 								"users",
 								"2db47107-a790-4544-8671-66761dd792ef",
@@ -391,12 +482,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/user/2db47107-a790-4544-8671-66761dd792ef",
+							"raw": "http://34.89.65.71/user/2db47107-a790-4544-8671-66761dd792ef",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
 							"path": [
 								"user",
 								"2db47107-a790-4544-8671-66761dd792ef"
@@ -406,7 +499,7 @@
 					"response": []
 				},
 				{
-					"name": "Ban/Unban User",
+					"name": "Ban User",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -416,12 +509,48 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/user/ban/749351e1-dec8-4c8a-a0e1-fa81db79b23c?adminId=749351e1-dec8-4c8a-a0e1-fa81db79b23c",
+							"raw": "http://34.89.65.71/user/ban/749351e1-dec8-4c8a-a0e1-fa81db79b23c?adminId=749351e1-dec8-4c8a-a0e1-fa81db79b23c",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
+							"path": [
+								"user",
+								"ban",
+								"749351e1-dec8-4c8a-a0e1-fa81db79b23c"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "749351e1-dec8-4c8a-a0e1-fa81db79b23c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unban User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.1.1"
+							}
+						],
+						"url": {
+							"raw": "http://34.89.65.71/user/ban/749351e1-dec8-4c8a-a0e1-fa81db79b23c?adminId=749351e1-dec8-4c8a-a0e1-fa81db79b23c",
+							"protocol": "http",
+							"host": [
+								"34",
+								"89",
+								"65",
+								"71"
+							],
 							"path": [
 								"user",
 								"ban",
@@ -448,12 +577,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/user/2db47107-a790-4544-8671-66761dd792ef",
+							"raw": "http://34.89.65.71/user/2db47107-a790-4544-8671-66761dd792ef",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
 							"path": [
 								"user",
 								"2db47107-a790-4544-8671-66761dd792ef"
@@ -465,6 +596,16 @@
 				{
 					"name": "Update User",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW5lLmRvZTRAZXhhbXBsZS5jb20iLCJyb2xlIjoiQVVUSE9SIiwiaWF0IjoxNzMzNDcyMTgyLCJleHAiOjE3MzM0NzMwODJ9.ZQpi3vpFaEFCjoNpehy05K_04KSYAMXHVMPIsOy14zlj-fM3z1TqQ4Bko_wmU14GblmAj2C1j0sDs7vC488VIA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -478,18 +619,20 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Jane Doe3\",\n    \"email\": \"jane.doe2@example.com\",\n    \"role\": \"AUTHOR\",\n\t\t\"status\": \"ACTIVE\",\n    \"about\": \"Software developer with a passion for open-source projects.\",\n    \"profile_picture\": \"http://example.com/images/jane-doe.jpg\"\n}\n"
+							"raw": "{\n        \"userId\": \"963f95c0-b85e-4a39-a68b-818a0b0fe606\",\n        \"username\": \"Jane Doe\",\n        \"email\": \"jane.doe5@example.com\",\n        \"about\": \"Software developer with a passion for open-source projects. and stuff\",\n        \"profilePicture\": null,\n        \"role\": \"ADMIN\",\n        \"status\": \"ACTIVE\"\n }\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/2db47107-a790-4544-8671-66761dd792ef",
+							"raw": "http://34.89.65.71/user/963f95c0-b85e-4a39-a68b-818a0b0fe606",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
 							"path": [
 								"user",
-								"2db47107-a790-4544-8671-66761dd792ef"
+								"963f95c0-b85e-4a39-a68b-818a0b0fe606"
 							]
 						}
 					},
@@ -498,6 +641,16 @@
 				{
 					"name": "Get All User",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMkBleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczMzU0OTIxMCwiZXhwIjoxNzMzNTUwMTEwfQ.v6UU6cJU8z5RXwtgIPIshKvPIFtwvJQN3kTTfXrl8aIHuGZKfIWIXlooLEbhvPH18De_OUHErhCmBPj-EGDqyA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -506,12 +659,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/user",
+							"raw": "http://34.89.65.71/user",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
 							"path": [
 								"user"
 							]
@@ -535,17 +690,112 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Jane Doe\",\n    \"email\": \"jane.doe4@example.com\",\n    \"role\": \"AUTHOR\",\n\t\t\"status\": \"ACTIVE\",\n\t\"password\": \"test\",\n    \"about\": \"Software developer with a passion for open-source projects.\",\n    \"profile_picture\": \"http://example.com/images/jane-doe.jpg\"\n}\n"
+							"raw": "{\n    \"username\": \"Jim2\",\n    \"email\": \"a2@example.com\",\n    \"role\": \"ADMIN\",\n\t\"status\": \"ACTIVE\",\n\t\"password\": \"password\",\n    \"about\": \"Software developer with a passion for open-source projects.\",\n    \"profile_picture\": \"http://example.com/images/jane-doe.jpg\"\n}\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/user",
+							"raw": "http://34.89.65.71/user",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"34",
+								"89",
+								"65",
+								"71"
 							],
-							"port": "8080",
 							"path": [
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate login (this gets called from auth api",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMkBleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczMzU0OTIxMCwiZXhwIjoxNzMzNTUwMTEwfQ.v6UU6cJU8z5RXwtgIPIshKvPIFtwvJQN3kTTfXrl8aIHuGZKfIWIXlooLEbhvPH18De_OUHErhCmBPj-EGDqyA\n",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer secret",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"a@example.com\",\r\n  \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://34.89.65.71/user/validate",
+							"protocol": "http",
+							"host": [
+								"34",
+								"89",
+								"65",
+								"71"
+							],
+							"path": [
+								"user",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AuthApi",
+			"item": [
+				{
+					"name": "Login (Generate token)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMkBleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczMzU0OTIxMCwiZXhwIjoxNzMzNTUwMTEwfQ.v6UU6cJU8z5RXwtgIPIshKvPIFtwvJQN3kTTfXrl8aIHuGZKfIWIXlooLEbhvPH18De_OUHErhCmBPj-EGDqyA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"a2@example.com\",\r\n  \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://34.147.227.127/auth/login",
+							"protocol": "http",
+							"host": [
+								"34",
+								"147",
+								"227",
+								"127"
+							],
+							"path": [
+								"auth",
+								"login"
 							]
 						}
 					},
