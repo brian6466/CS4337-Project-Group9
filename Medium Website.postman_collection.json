@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "495f3633-35ce-411f-b420-a517a22044d4",
+		"_postman_id": "fc71c46b-e32d-4094-b11e-d07ddf9ee986",
 		"name": "Medium Website",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39770283"
@@ -328,7 +328,7 @@
 			"name": "UserApi",
 			"item": [
 				{
-					"name": "Get followers/following",
+					"name": "Get Followers",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -354,7 +354,60 @@
 					"response": []
 				},
 				{
-					"name": "Follow/Unfollow User",
+					"name": "Get Following",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.1.1"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/645f3b4e-4486-4d75-a824-84fb3f1dc734/followers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"645f3b4e-4486-4d75-a824-84fb3f1dc734",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.1.1"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/2db47107-a790-4544-8671-66761dd792ef/follow/645f3b4e-4486-4d75-a824-84fb3f1dc734",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2db47107-a790-4544-8671-66761dd792ef",
+								"follow",
+								"645f3b4e-4486-4d75-a824-84fb3f1dc734"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow User",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -406,7 +459,39 @@
 					"response": []
 				},
 				{
-					"name": "Ban/Unban User",
+					"name": "Ban User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.1.1"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/user/ban/749351e1-dec8-4c8a-a0e1-fa81db79b23c?adminId=749351e1-dec8-4c8a-a0e1-fa81db79b23c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"ban",
+								"749351e1-dec8-4c8a-a0e1-fa81db79b23c"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "749351e1-dec8-4c8a-a0e1-fa81db79b23c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unban User",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -465,6 +550,16 @@
 				{
 					"name": "Update User",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW5lLmRvZTRAZXhhbXBsZS5jb20iLCJyb2xlIjoiQVVUSE9SIiwiaWF0IjoxNzMzNDcyMTgyLCJleHAiOjE3MzM0NzMwODJ9.ZQpi3vpFaEFCjoNpehy05K_04KSYAMXHVMPIsOy14zlj-fM3z1TqQ4Bko_wmU14GblmAj2C1j0sDs7vC488VIA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -478,10 +573,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Jane Doe3\",\n    \"email\": \"jane.doe2@example.com\",\n    \"role\": \"AUTHOR\",\n\t\t\"status\": \"ACTIVE\",\n    \"about\": \"Software developer with a passion for open-source projects.\",\n    \"profile_picture\": \"http://example.com/images/jane-doe.jpg\"\n}\n"
+							"raw": "{\n        \"userId\": \"963f95c0-b85e-4a39-a68b-818a0b0fe606\",\n        \"username\": \"Jane Doe\",\n        \"email\": \"jane.doe5@example.com\",\n        \"about\": \"Software developer with a passion for open-source projects. and stuff\",\n        \"profilePicture\": null,\n        \"role\": \"ADMIN\",\n        \"status\": \"ACTIVE\"\n }\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/2db47107-a790-4544-8671-66761dd792ef",
+							"raw": "http://localhost:8080/user/963f95c0-b85e-4a39-a68b-818a0b0fe606",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -489,7 +584,7 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"2db47107-a790-4544-8671-66761dd792ef"
+								"963f95c0-b85e-4a39-a68b-818a0b0fe606"
 							]
 						}
 					},
@@ -535,7 +630,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Jane Doe\",\n    \"email\": \"jane.doe4@example.com\",\n    \"role\": \"AUTHOR\",\n\t\t\"status\": \"ACTIVE\",\n\t\"password\": \"test\",\n    \"about\": \"Software developer with a passion for open-source projects.\",\n    \"profile_picture\": \"http://example.com/images/jane-doe.jpg\"\n}\n"
+							"raw": "{\n    \"username\": \"Jane Doe\",\n    \"email\": \"jane.doe4@example.com\",\n    \"role\": \"ADMIN\",\n\t\"status\": \"ACTIVE\",\n\t\"password\": \"test\",\n    \"about\": \"Software developer with a passion for open-source projects.\",\n    \"profile_picture\": \"http://example.com/images/jane-doe.jpg\"\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:8080/user",
@@ -546,6 +641,58 @@
 							"port": "8080",
 							"path": [
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate login (this gets called from auth api",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AuthApi",
+			"item": [
+				{
+					"name": "Login (Generate token)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW5lLmRvZTRAZXhhbXBsZS5jb20iLCJyb2xlIjoiQVVUSE9SIiwiaWF0IjoxNzMzNDcxNzY2LCJleHAiOjE3MzM0NzI2NjZ9.mdq_FEE39UIgls0_LOt9yMQE7CpolUrS4vbv_fLSBviG941Nu1E5KRJWORac3p2BX8TlWRKan3qN9KE-xOCCUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jane.doe4@example.com\",\r\n  \"password\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"auth",
+								"login"
 							]
 						}
 					},
